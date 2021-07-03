@@ -76,6 +76,37 @@ class UserController extends Controller
 //destroy => will save all cols from request then return to $route.index
 ```
 
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+     // will be used in store and update validation in case storeRules or updateRules are not set
+    public static $rules = [
+        'name'  =>  'required',
+        'email'  =>  'required|email',
+        'password'  =>  'required',
+    ];
+    
+    // will be used for store validation, if set
+    // public static $storeRules =[];
+    
+    // will be used for update validation , if set
+    // public static $updateRules =[];
+    
+}
+```
 ### Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
