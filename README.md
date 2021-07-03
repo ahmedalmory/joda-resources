@@ -38,13 +38,13 @@ class UserController extends Controller
 
 
      // optional
-     // will be the name of the model if not set in this example 'user'
+     // will be the name of the model (in kebab case in case more than one word) if not set in this example 'user'
      protected $view = 'user';
      // name of the model that will be used in returned views
 
 
      /// optional
-     // will be plural of the name attribute if not set in this example 'users'
+     // will be plural of the name attribute (in snake case in case more than one word) if not set in this example 'users'
      protected $route = 'users';
      // name of the model that will be used in returned routes after finishing the operation
 
