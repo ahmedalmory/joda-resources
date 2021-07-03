@@ -114,6 +114,17 @@ class User extends Authenticatable
     
 }
 ```
+
+##for customisation
+
+There are methods for customisation like 
+beforeStore() that be fired right before storing data to data base
+afterStore() that be fired right after storing data, for instance you could change flash message or redirect to some other page 
+and the same for update and destroy
+beforeUpdate()
+afterUpdate()
+beforeDestroy()
+afterDestroy()
 ### Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
