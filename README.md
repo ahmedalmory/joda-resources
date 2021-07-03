@@ -17,8 +17,15 @@ composer require ahmedjoda/joda-resources
 ## Usage
 
 ```php
+<?php
+
+// any thing after controllers in namespace would be prifexed to view and route
+// Ex. namespace App\Http\Controllers\Admin;
+// View would be admin.user
+// route would be admin.users
+namespace App\Http\Controllers;
+
 use Ahmedjoda\JodaResources\JodaResources;
-use App\Http\Controllers\Controller;
 use App\Models\User;
 
 class UserController extends Controller
