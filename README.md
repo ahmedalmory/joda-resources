@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ahmedjoda/joda-resources.svg?style=flat-square)](https://packagist.org/packages/ahmedjoda/joda-resources)
 [![Total Downloads](https://img.shields.io/packagist/dt/ahmedjoda/joda-resources.svg?style=flat-square)](https://packagist.org/packages/ahmedjoda/joda-resources)
-![GitHub Actions](https://github.com/ahmedjoda/joda-resources/actions/workflows/main.yml/badge.svg)
+
 
 a trait that generates resources methods for controller.
 
