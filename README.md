@@ -17,8 +17,15 @@ composer require ahmedjoda/joda-resources
 ## Usage
 
 ```php
+<?php
+
+// any thing after controllers in namespace would be prifexed to view and route
+// Ex. namespace App\Http\Controllers\Admin;
+// View would be admin.user
+// route would be admin.users
+namespace App\Http\Controllers;
+
 use Ahmedjoda\JodaResources\JodaResources;
-use App\Http\Controllers\Controller;
 use App\Models\User;
 
 class UserController extends Controller
@@ -75,6 +82,49 @@ class UserController extends Controller
 
 //destroy => will save all cols from request then return to $route.index
 ```
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+     // will be used in store and update validation in case storeRules or updateRules are not set
+    public static $rules = [
+        'name'  =>  'required',
+        'email'  =>  'required|email',
+        'password'  =>  'required',
+    ];
+    
+    // will be used for store validation, if set
+    // public static $storeRules =[];
+    
+    // will be used for update validation , if set
+    // public static $updateRules =[];
+    
+}
+```
+
+## for customisation
+
+There are methods for customisation like 
+beforeStore() that be fired right before storing data to data base,
+afterStore() that be fired right after storing data, for instance you could change flash message or redirect to some other page,
+and the same for update and destroy,
+beforeUpdate(),
+afterUpdate(),
+beforeDestroy(),
+afterDestroy(),
 
 ### Changelog
 
