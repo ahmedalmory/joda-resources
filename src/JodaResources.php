@@ -42,19 +42,17 @@ trait JodaResources
     {
         $this->validateStoreRequest();
         
-        if ($this->beforeStore()) {
-            return $this->beforeStore();
-        } else {
-            $this->beforeStore();
+        $returned = $this->beforeStore();
+        if ($returned) {
+            return $returned;
         }
 
         $data = $this->uploadFilesIfExist();
         $this->model::create($data);
 
-        if ($this->afterStore()) {
-            return $this->afterStore();
-        } else {
-            $this->afterStore();
+        $returned = $this->afterStore();
+        if ($returned) {
+            return $returned;
         }
 
         session()->flash('success', trans('admin.added'));
@@ -86,19 +84,17 @@ trait JodaResources
     {
         $this->validateUpdateRequest();
         
-        if ($this->beforeUpdate()) {
-            return $this->beforeUpdate();
-        } else {
-            $this->beforeUpdate();
+        $returned = $this->beforeUpdate();
+        if ($returned) {
+            return $returned;
         }
 
         $data = $this->uploadFilesIfExist();
         $this->model::find($id)->update($data);
 
-        if ($this->afterUpdate()) {
-            return $this->afterUpdate();
-        } else {
-            $this->afterUpdate();
+        $returned = $this->afterUpdate();
+        if ($returned) {
+            return $returned;
         }
 
         session()->flash('success', trans('admin.updated'));
@@ -109,20 +105,18 @@ trait JodaResources
 
     public function destroy($id)
     {
-        if ($this->beforeDestroy()) {
-            return $this->beforeDestroy();
-        } else {
-            $this->beforeDestroy();
+        $returned = $this->beforeDestroy();
+        if ($returned) {
+            return $returned;
         }
 
         ${$this->name}  = $this->model::find($id);
         $this->deleteFilesIfExist(${$this->name});
         ${$this->name}->delete();
 
-        if ($this->afterDestroy()) {
-            return $this->afterDestroy();
-        } else {
-            $this->afterDestroy();
+        $returned = $this->afterDestroy();
+        if ($returned) {
+            return $returned;
         }
 
         session()->flash('success', trans('admin.deleted'));
