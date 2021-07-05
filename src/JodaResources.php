@@ -42,11 +42,20 @@ trait JodaResources
     {
         $this->validateStoreRequest();
         
-        $this->beforeStore();
+        if ($this->beforeStore()) {
+            return $this->beforeStore();
+        } else {
+            $this->beforeStore();
+        }
+
         $data = $this->uploadFilesIfExist();
         $this->model::create($data);
 
-        $this->afterStore();
+        if ($this->afterStore()) {
+            return $this->afterStore();
+        } else {
+            $this->afterStore();
+        }
 
         session()->flash('success', trans('admin.added'));
 
@@ -77,12 +86,20 @@ trait JodaResources
     {
         $this->validateUpdateRequest();
         
-        $this->beforeUpdate();
+        if ($this->beforeUpdate()) {
+            return $this->beforeUpdate();
+        } else {
+            $this->beforeUpdate();
+        }
 
         $data = $this->uploadFilesIfExist();
         $this->model::find($id)->update($data);
 
-        $this->afterUpdate();
+        if ($this->afterUpdate()) {
+            return $this->afterUpdate();
+        } else {
+            $this->afterUpdate();
+        }
 
         session()->flash('success', trans('admin.updated'));
 
@@ -92,13 +109,21 @@ trait JodaResources
 
     public function destroy($id)
     {
-        $this->beforeDestroy();
+        if ($this->beforeDestroy()) {
+            return $this->beforeDestroy();
+        } else {
+            $this->beforeDestroy();
+        }
 
         ${$this->name}  = $this->model::find($id);
         $this->deleteFilesIfExist(${$this->name});
         ${$this->name}->delete();
 
-        $this->afterDestroy();
+        if ($this->afterDestroy()) {
+            return $this->afterDestroy();
+        } else {
+            $this->afterDestroy();
+        }
 
         session()->flash('success', trans('admin.deleted'));
 
