@@ -23,7 +23,7 @@ trait JodaResources
         } else {
             ${$this->pluralName} = $this->model::all();
         }
-        
+
         $index = ${$this->pluralName};
         $route = $this->route;
         return view("{$this->view}.index", compact($this->pluralName, 'index', 'route'));
@@ -41,7 +41,7 @@ trait JodaResources
     public function store()
     {
         $this->validateStoreRequest();
-        
+
         $returned = $this->beforeStore();
         if ($returned) {
             return $returned;
@@ -83,8 +83,8 @@ trait JodaResources
     public function update($id)
     {
         $this->validateUpdateRequest();
-        
-        $returned = $this->beforeUpdate();
+
+        $returned = $this->beforeUpdate($id);
         if ($returned) {
             return $returned;
         }
@@ -92,7 +92,7 @@ trait JodaResources
         $data = $this->uploadFilesIfExist();
         $this->model::find($id)->update($data);
 
-        $returned = $this->afterUpdate();
+        $returned = $this->afterUpdate($id);
         if ($returned) {
             return $returned;
         }
@@ -105,7 +105,7 @@ trait JodaResources
 
     public function destroy($id)
     {
-        $returned = $this->beforeDestroy();
+        $returned = $this->beforeDestroy($id);
         if ($returned) {
             return $returned;
         }
@@ -114,7 +114,7 @@ trait JodaResources
         $this->deleteFilesIfExist(${$this->name});
         ${$this->name}->delete();
 
-        $returned = $this->afterDestroy();
+        $returned = $this->afterDestroy($id);
         if ($returned) {
             return $returned;
         }
@@ -134,7 +134,7 @@ trait JodaResources
         $array = explode('\\', $this->model);
         $name = lcfirst(end($array));
         $this->kebabName = Str::kebab(end($array));
-        
+
         if (!isset($this->name)) {
             $this->name = $name;
             $this->pluralName = Str::plural($this->name);
@@ -143,31 +143,29 @@ trait JodaResources
         }
 
         $reflector = new ReflectionClass($this);
-        $namespace = Str::lower(str_replace('App\Http\Controllers\\', '', $reflector->getNamespaceName())) ;
-        
+        $namespace = Str::lower(str_replace('App\Http\Controllers\\', '', $reflector->getNamespaceName()));
+
         if (!isset($this->view)) {
             $this->view = "$namespace.$this->kebabName";
         }
 
         if (!isset($this->route)) {
-            $this->route = "$namespace.$this->pluralSnakeName"  ;
+            $this->route = "$namespace.$this->pluralSnakeName";
         }
     }
 
 
     public function validateStoreRequest()
     {
-        $rules = isset($this->model::$storeRules) ? $this->model::$storeRules :
-            (isset($this->model::$rules) ? $this->model::$rules : null);
+        $rules = isset($this->model::$storeRules) ? $this->model::$storeRules : (isset($this->model::$rules) ? $this->model::$rules : null);
         if ($rules) {
             request()->validate($rules);
         }
     }
-    
+
     public function validateUpdateRequest()
     {
-        $rules = isset($this->model::$updateRules) ? $this->model::$updateRules :
-            (isset($this->model::$rules) ? $this->model::$rules : null);
+        $rules = isset($this->model::$updateRules) ? $this->model::$updateRules : (isset($this->model::$rules) ? $this->model::$rules : null);
         if ($rules) {
             request()->validate($rules);
         }
@@ -207,18 +205,18 @@ trait JodaResources
     public function afterStore()
     {
     }
-    public function beforeUpdate()
+    public function beforeUpdate($id = null)
     {
     }
 
-    public function afterUpdate()
+    public function afterUpdate($id = null)
     {
     }
-    public function beforeDestroy()
+    public function beforeDestroy($id = null)
     {
     }
 
-    public function afterDestroy()
+    public function afterDestroy($id = null)
     {
     }
 }
