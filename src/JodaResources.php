@@ -19,9 +19,9 @@ trait JodaResources
     public function index()
     {
         if (method_exists($this, 'query')) {
-            ${$this->pluralName} = $this->query($this->model::query())->get();
+            ${$this->pluralName} = $this->query($this->model::query())->paginate();
         } else {
-            ${$this->pluralName} = $this->model::all();
+            ${$this->pluralName} = $this->model::paginate();
         }
 
         $index = ${$this->pluralName};
