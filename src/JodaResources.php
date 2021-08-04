@@ -21,7 +21,7 @@ trait JodaResources
         if (method_exists($this, 'query')) {
             ${$this->pluralName} = $this->query($this->model::query())->get();
         } else {
-            ${$this->pluralName} = $this->model::all();
+            ${$this->pluralName} = $this->model::paginate();
         }
 
         $index = ${$this->pluralName};
