@@ -48,9 +48,10 @@ trait JodaResources
         }
 
         $data = $this->uploadFilesIfExist();
-        $this->model::create($data);
+        $data = $this->removeExcludedItems($data);
+        $createdModel = $this->model::create($data);
 
-        $returned = $this->afterStore();
+        $returned = $this->afterStore($createdModel->id);
         if ($returned) {
             return $returned;
         }
@@ -90,6 +91,7 @@ trait JodaResources
         }
 
         $data = $this->uploadFilesIfExist();
+        $data = $this->removeExcludedItems($data);
         $this->model::find($id)->update($data);
 
         $returned = $this->afterUpdate($id);
@@ -198,11 +200,21 @@ trait JodaResources
         }
     }
 
+    public function removeExcludedItems($data)
+    {
+        if (isset($this->exclude)) {
+            foreach ($this->exclude as $excluded) {
+                unset($data[$excluded]);
+            }
+        }
+        return $data;
+    }
+
     public function beforeStore()
     {
     }
 
-    public function afterStore()
+    public function afterStore($id = null)
     {
     }
     public function beforeUpdate($id = null)
