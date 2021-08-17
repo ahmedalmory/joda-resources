@@ -152,7 +152,7 @@ trait JodaResources
         }
 
         if (!isset($this->route)) {
-            $this->route = "$namespace.$this->pluralSnakeName";
+            $this->route = "$namespace.$this->pluralKebabName";
         }
     }
 
