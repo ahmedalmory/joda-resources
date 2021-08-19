@@ -55,18 +55,18 @@ class UserController extends Controller
      protected $route = 'users';
      // name of the model that will be used in returned routes after finishing the operation
 
+
      // optional
-     protected $ex = ['photo'];
+     protected $files = ['photo'];
      // items will be uploaded from the request in case there is file with the same name
      // files will be saved in /uploads/{pluralNameOfTheModel} with name {user_id}-{time}.{ext}
      // ex uploads/users/1-1624479228.jpg
+     // file will be deleted automatically upon deleting the object
+
 
      // optional
      protected $exclude = ['images'];
      // items will be excluded from store and update
-
-     // file will be deleted automatically upon deleting the object
-
 }
 
 //methods will be provided
