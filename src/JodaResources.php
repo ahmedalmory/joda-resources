@@ -19,9 +19,9 @@ trait JodaResources
     public function index()
     {
         if (method_exists($this, 'query')) {
-            ${$this->pluralName} = $this->query($this->model::query())->get();
+            ${$this->pluralName} = $this->query($this->model::query());
         } else {
-            ${$this->pluralName} = $this->model::paginate();
+            ${$this->pluralName} = $this->model::paginate()->withQueryString();
         }
 
         $index = ${$this->pluralName};
@@ -33,7 +33,7 @@ trait JodaResources
     public function create()
     {
         $route = $this->route;
-        $title = trans('admin.create');
+        $title = trans('create');
         return view("{$this->view}.create", compact('route', 'title'));
     }
 
@@ -51,14 +51,12 @@ trait JodaResources
         $data = $this->removeExcludedItems($data);
         $createdModel = $this->model::create($data);
 
-        $returned = $this->afterStore($createdModel->id);
+        $returned = $this->afterStore($createdModel);
         if ($returned) {
             return $returned;
         }
 
-        session()->flash('success', trans('admin.added'));
-
-        return redirect(route("$this->route.index"));
+        return redirect(route("$this->route.index"))->with('success', trans('added'));
     }
 
 
@@ -66,7 +64,7 @@ trait JodaResources
     {
         ${$this->name} = $this->model::find($id);
         $show = $this->model::find($id);
-        $title = trans('admin.show');
+        $title = trans('show');
         return view("$this->view.show", compact($this->name, 'show', 'title'));
     }
 
@@ -76,7 +74,7 @@ trait JodaResources
         ${$this->name} = $this->model::find($id);
         $edit = $this->model::find($id);
         $route = $this->route;
-        $title = trans('admin.edit');
+        $title = trans('edit');
         return view("$this->view.edit", compact($this->name, 'edit', 'route', 'title'));
     }
 
@@ -85,45 +83,43 @@ trait JodaResources
     {
         $this->validateUpdateRequest();
 
-        $returned = $this->beforeUpdate($id);
+        $model = $this->model::find($id);
+        $returned = $this->beforeUpdate($model);
         if ($returned) {
             return $returned;
         }
 
         $data = $this->uploadFilesIfExist();
         $data = $this->removeExcludedItems($data);
-        $this->model::find($id)->update($data);
+        $updatedModel = $model->update($data);
 
-        $returned = $this->afterUpdate($id);
+        $returned = $this->afterUpdate($updatedModel);
         if ($returned) {
             return $returned;
         }
 
-        session()->flash('success', trans('admin.updated'));
-
-        return redirect(route("$this->route.index"));
+        return redirect(route("$this->route.index"))->with('success', trans('updated'));
     }
 
 
     public function destroy($id)
     {
-        $returned = $this->beforeDestroy($id);
+        $model  = $this->model::find($id);
+
+        $returned = $this->beforeDestroy($model);
         if ($returned) {
             return $returned;
         }
 
-        ${$this->name}  = $this->model::find($id);
-        $this->deleteFilesIfExist(${$this->name});
-        ${$this->name}->delete();
+        $this->deleteFilesIfExist($model);
+        $model->delete();
 
-        $returned = $this->afterDestroy($id);
+        $returned = $this->afterDestroy();
         if ($returned) {
             return $returned;
         }
 
-        session()->flash('success', trans('admin.deleted'));
-
-        return redirect(route("$this->route.index"));
+        return redirect(route("$this->route.index"))->with('success', trans('deleted'));
     }
 
 
@@ -214,21 +210,21 @@ trait JodaResources
     {
     }
 
-    public function afterStore($id = null)
+    public function afterStore($model = null)
     {
     }
-    public function beforeUpdate($id = null)
-    {
-    }
-
-    public function afterUpdate($id = null)
-    {
-    }
-    public function beforeDestroy($id = null)
+    public function beforeUpdate($model = null)
     {
     }
 
-    public function afterDestroy($id = null)
+    public function afterUpdate($model = null)
+    {
+    }
+    public function beforeDestroy($model = null)
+    {
+    }
+
+    public function afterDestroy()
     {
     }
 }
