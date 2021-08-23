@@ -37,6 +37,18 @@ class UserController extends Controller
      // model that will be used for crud operations
 
 
+     // required either in the controller or the model
+     // will be used in store and update validation in case storeRules or updateRules are not set
+     protected $rules = ['name' => 'required', 'body' => 'sometimes'];
+
+
+    // will be used for store validation, if set
+    // public static $storeRules =[];
+
+    // will be used for update validation , if set
+    // public static $updateRules =[];
+
+
      // optional
      // will be the name of the model in lower case if not set in this example 'user'
      protected $name = 'user';

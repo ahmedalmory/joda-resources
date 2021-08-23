@@ -181,6 +181,8 @@ trait JodaResources
                             : null))));
         if ($rules) {
             return request()->validate($rules);
+        } else {
+            throw new LogicException('there are no rules in ' . get_class($this) .  ' for store validation please set $storeRules property or $rules for both store and update in either the controller or the model');
         }
     }
 
@@ -198,6 +200,8 @@ trait JodaResources
                             : null))));
         if ($rules) {
             return request()->validate($rules);
+        } else {
+            throw new LogicException('there are no rules in ' . get_class($this) .  ' for update validation please set $storeRules property or $rules for both store and update in either the controller or the model');
         }
     }
 
