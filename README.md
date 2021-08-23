@@ -50,7 +50,7 @@ class UserController extends Controller
 
 
      /// optional
-     // will be plural of the name attribute (in snake case in case more than one word) if not set in this example 'users'
+     // will be plural of the name attribute (in kebab case in case more than one word) if not set in this example 'users'
      protected $route = 'users';
      // name of the model that will be used in returned routes after finishing the operation
 
@@ -60,9 +60,12 @@ class UserController extends Controller
      // items will be uploaded from the request in case there is file with the same name
      // files will be saved in /uploads/{pluralNameOfTheModel} with name {user_id}-{time}.{ext}
      // ex uploads/users/1-1624479228.jpg
-
      // file will be deleted automatically upon deleting the object
 
+
+     // optional
+     protected $exclude = ['images'];
+     // items will be excluded from store and update
 }
 
 //methods will be provided
