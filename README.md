@@ -3,7 +3,6 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ahmedjoda/joda-resources.svg?style=flat-square)](https://packagist.org/packages/ahmedjoda/joda-resources)
 [![Total Downloads](https://img.shields.io/packagist/dt/ahmedjoda/joda-resources.svg?style=flat-square)](https://packagist.org/packages/ahmedjoda/joda-resources)
 
-
 a trait that generates resources methods for controller.
 
 ## Installation
@@ -19,7 +18,7 @@ composer require ahmedjoda/joda-resources
 ```php
 <?php
 
-// any thing after controllers in namespace would be prifexed to view and route
+// any thing after "controllers" in namespace would be prefixed to view and route properties
 // Ex. namespace App\Http\Controllers\Admin;
 // View would be admin.user
 // route would be admin.users
@@ -33,7 +32,7 @@ class UserController extends Controller
 
      use JodaResources;
 
-     // required
+     // JodaResources will try to find a model with the name User in App\Models, App\ or App\Model
      protected $model = User::class;
      // model that will be used for crud operations
 
@@ -105,19 +104,19 @@ class User extends Authenticatable
         'email'  =>  'required|email',
         'password'  =>  'required',
     ];
-    
+
     // will be used for store validation, if set
     // public static $storeRules =[];
-    
+
     // will be used for update validation , if set
     // public static $updateRules =[];
-    
+
 }
 ```
 
 ## for customisation
 
-There are methods for customisation like 
+There are methods for customisation like
 beforeStore() that be fired right before storing data to data base,
 afterStore() that be fired right after storing data, for instance you could change flash message or redirect to some other page,
 and the same for update and destroy,

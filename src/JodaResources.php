@@ -11,6 +11,7 @@ trait JodaResources
 {
     final public function __construct()
     {
+        $this->setModelName();
         $this->initAttributeNames();
     }
 
@@ -40,15 +41,14 @@ trait JodaResources
 
     public function store()
     {
-        $this->validateStoreRequest();
+        $data = $this->validateStoreRequest();
 
         $returned = $this->beforeStore();
         if ($returned) {
             return $returned;
         }
 
-        $data = $this->uploadFilesIfExist();
-        $data = $this->removeExcludedItems($data);
+        $data = $this->uploadFilesIfExist($data);
         $createdModel = $this->model::create($data);
 
         $returned = $this->afterStore($createdModel);
@@ -81,7 +81,7 @@ trait JodaResources
 
     public function update($id)
     {
-        $this->validateUpdateRequest();
+        $data = $this->validateUpdateRequest();
 
         $model = $this->model::find($id);
         $returned = $this->beforeUpdate($model);
@@ -89,8 +89,7 @@ trait JodaResources
             return $returned;
         }
 
-        $data = $this->uploadFilesIfExist();
-        $data = $this->removeExcludedItems($data);
+        $data = $this->uploadFilesIfExist($data);
         $updatedModel = $model->update($data);
 
         $returned = $this->afterUpdate($updatedModel);
@@ -126,7 +125,7 @@ trait JodaResources
     public function initAttributeNames()
     {
         if (!isset($this->model)) {
-            throw new LogicException(get_class($this) . ' is using JodaResources it must have at least a $model value');
+            throw new LogicException('JodaResources can\'t find a suitable model for ' . get_class($this) .  ' please set it manually throw $model');
         }
 
         $array = explode('\\', $this->model);
@@ -152,26 +151,58 @@ trait JodaResources
         }
     }
 
+    public function setModelName()
+    {
+        $reflector = new ReflectionClass($this);
+        $model = $reflector->name;
+        $array = explode('\\', $model);
+        $model = str_replace('Controller', '', end($array));
+
+        if (class_exists('App\\Models\\' . $model)) {
+            $this->model = 'App\\Models\\' . $model;
+        } elseif (class_exists('App\\' . $model)) {
+            $this->model = 'App\\' . $model;
+        } elseif (class_exists('App\\Model\\' . $model)) {
+            $this->model = 'App\\Model\\' . $model;
+        }
+    }
 
     public function validateStoreRequest()
     {
-        $rules = isset($this->model::$storeRules) ? $this->model::$storeRules : (isset($this->model::$rules) ? $this->model::$rules : null);
+        $rules = isset($this->storeRules)
+            ? $this->storeRules
+            : (isset($this->rules)
+                ? $this->rules
+                : (isset($this->model::$storeRules)
+                    ? $this->model::$storeRules
+                    : (
+                        (isset($this->model::$rules)
+                            ? $this->model::$rules
+                            : null))));
         if ($rules) {
-            request()->validate($rules);
+            return request()->validate($rules);
         }
     }
 
     public function validateUpdateRequest()
     {
-        $rules = isset($this->model::$updateRules) ? $this->model::$updateRules : (isset($this->model::$rules) ? $this->model::$rules : null);
+        $rules = isset($this->updateRules)
+            ? $this->updateRules
+            : (isset($this->rules)
+                ? $this->rules
+                : (isset($this->model::$updateRules)
+                    ? $this->model::$updateRules
+                    : (
+                        (isset($this->model::$rules)
+                            ? $this->model::$rules
+                            : null))));
         if ($rules) {
-            request()->validate($rules);
+            return request()->validate($rules);
         }
     }
 
-    public function uploadFilesIfExist()
+    public function uploadFilesIfExist($data)
     {
-        $data = request()->except("_token", '_method');
         if (isset($this->files)) {
             foreach ($this->files as $file) {
                 if (request()->hasFile($file) and request()->$file) {
@@ -194,16 +225,6 @@ trait JodaResources
                 Storage::delete($model->$file);
             }
         }
-    }
-
-    public function removeExcludedItems($data)
-    {
-        if (isset($this->exclude)) {
-            foreach ($this->exclude as $excluded) {
-                unset($data[$excluded]);
-            }
-        }
-        return $data;
     }
 
     public function beforeStore()
