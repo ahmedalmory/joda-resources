@@ -27,26 +27,27 @@ trait JodaResources
 
         $index = ${$this->pluralName};
         $route = $this->route;
-        return view("{$this->view}.index", compact($this->pluralName, 'index', 'route'));
+        $title = ucfirst($this->pluralName);
+        return view("{$this->view}.index", compact($this->pluralName, 'index', 'route', 'title'));
     }
 
 
     public function create()
     {
         $route = $this->route;
-        $title = trans('create');
+        $title = 'Create ' . ucfirst($this->name);
         return view("{$this->view}.create", compact('route', 'title'));
     }
 
 
     public function store()
     {
-        $data = $this->validateStoreRequest();
-
         $returned = $this->beforeStore();
         if ($returned) {
             return $returned;
         }
+
+        $data = $this->validateStoreRequest();
 
         $data = $this->uploadFilesIfExist($data);
         $createdModel = $this->model::create($data);
@@ -74,20 +75,20 @@ trait JodaResources
         ${$this->name} = $this->model::find($id);
         $edit = $this->model::find($id);
         $route = $this->route;
-        $title = trans('edit');
+        $title = 'Edit ' . ucfirst($this->name);
         return view("$this->view.edit", compact($this->name, 'edit', 'route', 'title'));
     }
 
 
     public function update($id)
     {
-        $data = $this->validateUpdateRequest();
-
         $model = $this->model::find($id);
         $returned = $this->beforeUpdate($model);
         if ($returned) {
             return $returned;
         }
+
+        $data = $this->validateUpdateRequest();
 
         $data = $this->uploadFilesIfExist($data);
         $updatedModel = $model->update($data);
