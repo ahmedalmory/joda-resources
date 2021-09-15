@@ -35,7 +35,7 @@ trait JodaResources
     public function create()
     {
         $route = $this->route;
-        $title = 'Create ' . ucfirst($this->name);
+        $title = trans('Create ' . ucfirst($this->name));
         return view("{$this->view}.create", compact('route', 'title'));
     }
 
@@ -65,7 +65,7 @@ trait JodaResources
     {
         ${$this->name} = $this->model::find($id);
         $show = $this->model::find($id);
-        $title = trans('show');
+        $title = trans('Show ' . ucfirst($this->name));
         return view("$this->view.show", compact($this->name, 'show', 'title'));
     }
 
@@ -75,7 +75,7 @@ trait JodaResources
         ${$this->name} = $this->model::find($id);
         $edit = $this->model::find($id);
         $route = $this->route;
-        $title = 'Edit ' . ucfirst($this->name);
+        $title = trans('Edit ' . ucfirst($this->name));
         return view("$this->view.edit", compact($this->name, 'edit', 'route', 'title'));
     }
 
