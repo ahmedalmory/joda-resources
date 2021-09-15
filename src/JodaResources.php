@@ -141,14 +141,16 @@ trait JodaResources
         }
 
         $reflector = new ReflectionClass($this);
-        $namespace = Str::lower(str_replace('App\Http\Controllers\\', '', $reflector->getNamespaceName()));
+        $namespace = '';
+        if ($reflector->getNamespaceName() != 'App\Http\Controllers')
+            $namespace = Str::lower(str_replace('App\Http\Controllers\\', '', $reflector->getNamespaceName()));
 
         if (!isset($this->view)) {
-            $this->view = "$namespace.$this->kebabName";
+            $this->view =  $namespace ? "$namespace.$this->kebabName" : "$this->kebabName";
         }
 
         if (!isset($this->route)) {
-            $this->route = "$namespace.$this->pluralKebabName";
+            $this->route = $namespace ? "$namespace.$this->pluralKebabName" : "$this->pluralKebabName";
         }
     }
 
