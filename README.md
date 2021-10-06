@@ -24,13 +24,13 @@ composer require ahmedjoda/joda-resources
 // route would be admin.users
 namespace App\Http\Controllers;
 
-use Ahmedjoda\JodaResources\JodaResources;
+use Ahmedjoda\JodaResources\JodaResource;
 use App\Models\User;
 
 class UserController extends Controller
 {
 
-     use JodaResources;
+     use JodaResource;
 
      // JodaResources will try to find a model with the name User in App\Models, App\ or App\Model
      protected $model = User::class;

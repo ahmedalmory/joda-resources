@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use ReflectionClass;
 
-trait JodaResources
+trait JodaResource
 {
     final public function __construct()
     {
@@ -27,7 +27,7 @@ trait JodaResources
 
         $index = ${$this->pluralName};
         $route = $this->route;
-        $title = ucfirst($this->pluralName);
+        $title = trans(ucfirst($this->pluralName));
         return view("{$this->view}.index", compact($this->pluralName, 'index', 'route', 'title'));
     }
 
