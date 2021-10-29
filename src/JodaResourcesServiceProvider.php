@@ -14,14 +14,14 @@ class JodaResourcesServiceProvider extends ServiceProvider
         /*
          * Optional methods to load your package assets
          */
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'joda-resources');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'joda-resources');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'joda-resources');
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('joda-resources.php'),
+                __DIR__ . '/../config/config.php' => config_path('joda-resources.php'),
             ], 'config');
 
             // Publishing the views.
@@ -50,7 +50,7 @@ class JodaResourcesServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'joda-resources');
+        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'joda-resources');
 
         // Register the main class to use with the facade
         $this->app->singleton('joda-resources', function () {

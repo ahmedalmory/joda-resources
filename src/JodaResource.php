@@ -57,7 +57,7 @@ trait JodaResource
             return $returned;
         }
 
-        return redirect(route("$this->route.index"))->with('success', trans('added'));
+        return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.added'));
     }
 
 
@@ -98,7 +98,7 @@ trait JodaResource
             return $returned;
         }
 
-        return redirect(route("$this->route.index"))->with('success', trans('updated'));
+        return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.updated'));
     }
 
 
@@ -119,7 +119,7 @@ trait JodaResource
             return $returned;
         }
 
-        return redirect(route("$this->route.index"))->with('success', trans('deleted'));
+        return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.deleted'));
     }
 
 
