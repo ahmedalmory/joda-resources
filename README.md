@@ -150,6 +150,7 @@ If you discover any security related issues, please email ahmedjoda02@gmail.com 
 ## Credits
 
 - [Ahmed Joda](https://github.com/ahmedjoda)
+- [Ahmed Tofaha](https://github.com/ahmedtofaha10)
 - [All Contributors](../../contributors)
 
 ## License
