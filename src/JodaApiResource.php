@@ -95,7 +95,7 @@ trait JodaApiResource
         $data = $this->uploadFilesIfExist($data);
 
         if ($model) {
-            $updatedModel = $model->update($data);
+            $updatedModel = tap($model)->update($data);
         } else {
             return $this->jsonForm('not found', 404, false);
         }
