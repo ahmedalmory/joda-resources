@@ -13,7 +13,8 @@ trait JodaApiResource
 {
     final public function __construct()
     {
-        $this->setModelName();
+        if (!$this->model)
+            $this->setModelName();
         $this->initAttributeNames();
     }
 
