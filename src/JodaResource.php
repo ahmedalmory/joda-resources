@@ -2,6 +2,7 @@
 
 namespace Ahmedjoda\JodaResources;
 
+use Illuminate\Support\Facades\Schema;
 use LogicException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -17,19 +18,42 @@ trait JodaResource
     }
 
 
-
     public function index()
     {
-        if (method_exists($this, 'query')) {
-            ${$this->pluralName} = $this->query($this->model::query());
-        } else {
-            ${$this->pluralName} = $this->model::paginate()->withQueryString();
-        }
+
+        ${$this->pluralName} = $this->getQuery();
 
         $index = ${$this->pluralName};
         $route = $this->route;
         $title = trans(ucfirst($this->pluralName));
         return view("{$this->view}.index", compact($this->pluralName, 'index', 'route', 'title'));
+    }
+
+    protected function getQuery()
+    {
+        if (method_exists($this, 'query')) {
+            return $this->query($this->model::query($this->filterQueryString));
+        } else {
+            return $this->model::where(function ($query) {
+                return $this->filterQueryString($query);
+            })->paginate()->withQueryString();
+        }
+    }
+
+    protected function filterQueryString($query)
+    {
+        if ($this->queryStringFilter) {
+            $collection = $query;
+            foreach (request()->all() as $key => $value) {
+                $isColumnExist = Schema::hasColumn((new $this->model)->getTable(), $key);
+                if ($key && $isColumnExist) {
+                    $collection = $collection->where($key, $value);
+                }
+            }
+            return $collection;
+        } else {
+            return $query;
+        }
     }
 
 

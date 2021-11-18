@@ -3,6 +3,7 @@
 namespace Ahmedjoda\JodaResources;
 
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Schema;
 use LogicException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -21,16 +22,39 @@ trait JodaApiResource
 
     public function index()
     {
-        if (method_exists($this, 'query')) {
-            ${$this->pluralName} = $this->query($this->model::query());
-        } else {
-            ${$this->pluralName} = $this->model::all();
-        }
+        ${$this->pluralName} = $this->getQuery();
 
         if (isset($this->resource)) {
             return $this->jsonForm($this->resource::collection(${$this->pluralName}));
         } else {
             return $this->jsonForm(${$this->pluralName});
+        }
+    }
+
+    protected function getQuery()
+    {
+        if (method_exists($this, 'query')) {
+            return $this->query($this->model::query($this->filterQueryString));
+        } else {
+            return $this->model::where(function ($query) {
+                return $this->filterQueryString($query);
+            })->get();
+        }
+    }
+
+    protected function filterQueryString($query)
+    {
+        if ($this->queryStringFilter) {
+            $collection = $query;
+            foreach (request()->all() as $key => $value) {
+                $isColumnExist = Schema::hasColumn((new $this->model)->getTable(), $key);
+                if ($key && $isColumnExist) {
+                    $collection = $collection->where($key, $value);
+                }
+            }
+            return $collection;
+        } else {
+            return $query;
         }
     }
 
@@ -133,6 +157,8 @@ trait JodaApiResource
 
     public function initAttributeNames()
     {
+        $this->queryStringFilter = $this->queryStringFilter ?? true;
+
         if (!isset($this->model)) {
             throw new LogicException('JodaApiResource can\'t find a suitable model for ' . get_class($this) .  ' please set it manually throw $model');
         }
