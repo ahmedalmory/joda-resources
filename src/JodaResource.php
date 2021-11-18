@@ -150,6 +150,8 @@ trait JodaResource
 
     public function initAttributeNames()
     {
+        $this->queryStringFilter = $this->queryStringFilter ?? true;
+
         if (!isset($this->model)) {
             throw new LogicException('JodaResources can\'t find a suitable model for ' . get_class($this) .  ' please set it manually throw $model');
         }
