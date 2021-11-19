@@ -46,7 +46,7 @@ trait JodaResource
             $collection = $query;
             foreach (request()->all() as $key => $value) {
                 $isColumnExist = Schema::hasColumn((new $this->model)->getTable(), $key);
-                if ($key && $isColumnExist) {
+                if ($value && $isColumnExist) {
                     $collection = $collection->where($key, $value);
                 }
             }
