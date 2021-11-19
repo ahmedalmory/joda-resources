@@ -53,8 +53,11 @@ class JodaResourcesServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'joda-resources');
 
         // Register the main class to use with the facade
-        $this->app->singleton('joda-resources', function () {
-            return new JodaResources;
+        $this->app->singleton('joda-resource', function () {
+            return new JodaResource;
+        });
+        $this->app->singleton('joda-api-resource', function () {
+            return new JodaApiResource;
         });
     }
 }
