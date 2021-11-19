@@ -42,11 +42,11 @@ trait JodaResource
 
     protected function filterQueryString($query)
     {
-        if ($this->queryStringFilter) {
+        if ($this->filterQueryString ?? true) {
             $collection = $query;
             foreach (request()->all() as $key => $value) {
                 $isColumnExist = Schema::hasColumn((new $this->model)->getTable(), $key);
-                if ($value && $isColumnExist) {
+                if ($value !== '' && $isColumnExist) {
                     $collection = $collection->where($key, $value);
                 }
             }
@@ -150,8 +150,6 @@ trait JodaResource
 
     public function initAttributeNames()
     {
-        $this->queryStringFilter = $this->queryStringFilter ?? true;
-
         if (!isset($this->model)) {
             throw new LogicException('JodaResources can\'t find a suitable model for ' . get_class($this) .  ' please set it manually throw $model');
         }
