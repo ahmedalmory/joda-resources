@@ -14,7 +14,14 @@ composer require ahmedjoda/joda-resources
 ```
 
 ## Usage
+### JodaResource
 
+web.php
+```php
+Route::resource('/users', 'UserController');
+```
+
+UserController.php
 ```php
 <?php
 
@@ -32,15 +39,14 @@ class UserController extends Controller
 
      use JodaResource;
 
-     // JodaResources will try to find a model with the name User in App\Models, App\ or App\Model
-     protected $model = User::class;
      // model that will be used for crud operations
+     protected $model = User::class;
+     // JodaResources will try to find a model with the name User in App\Models, App\ or App\Model
 
 
-     // required either in the controller or the model
      // will be used in store and update validation in case storeRules or updateRules are not set
-     protected $rules = ['name' => 'required', 'body' => 'sometimes'];
-
+     protected $rules = ['name' => 'required', 'email' => 'sometimes'];
+     // required either in the controller or the model
 
     // will be used for store validation, if set
     // public static $storeRules =[];
@@ -73,6 +79,15 @@ class UserController extends Controller
      // files will be saved in /uploads/{pluralNameOfTheModel} with name {user_id}-{time}.{ext}
      // ex uploads/users/1-1624479228.jpg
      // file will be deleted automatically upon deleting the object
+     
+     // true by default
+     prtected $filterQueryString = true;
+
+     // add custom query
+     public function query($query)
+     {
+         return $query->whereNotNull('another_filed')->get();
+     }
 }
 
 //methods will be provided
@@ -92,37 +107,40 @@ class UserController extends Controller
 //destroy => will save all cols from request then return to $route.index
 ```
 
+### JodaApiResource
+
+JodaApiResource has the same options that JodaResource has above
+
+api.php
 ```php
-<?php
+Route::resource('/examples', 'ExampleController');
+```
+ExampleController.php
+```php
+namespace App\Http\Controllers\Api;
 
-namespace App\Models;
+use Ahmedjoda\JodaResources\JodaApiResource;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
-class User extends Authenticatable
+class ExampleController extends Controller
 {
+ use JodaApiResource;
 
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    protected $rules = [
+        'filed' =>'required',
+        'another_filed' => 'sometimes'
     ];
-
-     // will be used in store and update validation in case storeRules or updateRules are not set
-    public static $rules = [
-        'name'  =>  'required',
-        'email'  =>  'required|email',
-        'password'  =>  'required',
-    ];
-
-    // will be used for store validation, if set
-    // public static $storeRules =[];
-
-    // will be used for update validation , if set
-    // public static $updateRules =[];
-
 }
 ```
+
+index => get => example.com/api/examples?filed=queryStringExample
+
+store => post => example.com/api/examples
+
+show => get => example.com/api/examples/1
+
+update => put => example.com/api/examples/1
+
+destroy => delete => example.com/api/examples/1
 
 ## for customisation
 
