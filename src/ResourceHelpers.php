@@ -70,7 +70,7 @@ trait ResourceHelpers
     }
 
 
-    protected function getQuery()
+    public function getQuery()
     {
         if (method_exists($this, 'query')) {
             return $this->query($this->model::where(function ($query) {
