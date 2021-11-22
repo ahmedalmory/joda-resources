@@ -38,7 +38,7 @@ trait ResourceHelpers
     protected function initAttributeNames()
     {
         if (!isset($this->model)) {
-            throw new LogicException('JodaResources can\'t find a suitable model for ' . get_class($this) .  ' please set it manually throw $model');
+            throw new LogicException('JodaResources can\'t find a suitable model for ' . get_class($this) .  ' please set it manually through $model');
         }
 
         $array = explode('\\', $this->model);
