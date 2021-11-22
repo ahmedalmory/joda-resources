@@ -27,7 +27,7 @@ trait ResourceHelpers
 
         $this->name = $model;
 
-        if (!$this->model) {
+        if (!isset($this->model)) {
             if (class_exists('App\\Models\\' . $model)) {
                 $this->model = 'App\\Models\\' . $model;
             } elseif (class_exists('App\\' . $model)) {
@@ -41,7 +41,7 @@ trait ResourceHelpers
     protected function initAttributeNames()
     {
         if (!isset($this->model)) {
-            throw new LogicException('JodaResources can\'t find a suitable model for ' . get_class($this) .  ' please set it manually throw $model');
+            throw new LogicException('JodaResources can\'t find a suitable model for ' . get_class($this) .  ' please set it manually through $model');
         }
 
         $array = explode('\\', $this->model);
