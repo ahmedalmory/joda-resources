@@ -19,12 +19,15 @@ trait ResourceHelpers
 
     protected function setModelName()
     {
-        if (!$this->model) {
-            $reflector = new ReflectionClass($this);
-            $model = $reflector->name;
-            $array = explode('\\', $model);
-            $model = str_replace('Controller', '', end($array));
+        $reflector = new ReflectionClass($this);
+        $model = $reflector->name;
 
+        $array = explode('\\', $model);
+        $model = str_replace('Controller', '', end($array));
+
+        $this->name = $model;
+
+        if (!$this->model) {
             if (class_exists('App\\Models\\' . $model)) {
                 $this->model = 'App\\Models\\' . $model;
             } elseif (class_exists('App\\' . $model)) {
@@ -38,12 +41,12 @@ trait ResourceHelpers
     protected function initAttributeNames()
     {
         if (!isset($this->model)) {
-            throw new LogicException('JodaResources can\'t find a suitable model for ' . get_class($this) .  ' please set it manually through $model');
+            throw new LogicException('JodaResources can\'t find a suitable model for ' . get_class($this) .  ' please set it manually throw $model');
         }
 
         $array = explode('\\', $this->model);
-        $name = lcfirst(end($array));
-        $this->kebabName = Str::kebab(end($array));
+        $name =  lcfirst($this->name ?? end($array));
+        $this->kebabName =  Str::kebab($this->name ?? end($array));
 
         if (!isset($this->singularCamelName)) {
             $this->singularCamelName = $name;
