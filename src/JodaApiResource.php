@@ -41,7 +41,7 @@ trait JodaApiResource
             return $returned;
         }
 
-        return $this->jsonForm($createdModel);
+        return $this->jsonForm($createdModel, Response::HTTP_CREATED);
     }
 
 
@@ -61,7 +61,7 @@ trait JodaApiResource
             }
             return $this->jsonForm($show);
         } else {
-            return $this->jsonForm('not found', 404, false);
+            return $this->jsonForm(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -84,7 +84,7 @@ trait JodaApiResource
         if ($model) {
             $updatedModel = tap($model)->update($data);
         } else {
-            return $this->jsonForm('not found', 404, false);
+            return $this->jsonForm(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
         }
 
         $returned = $this->afterUpdate($updatedModel);
@@ -106,14 +106,18 @@ trait JodaApiResource
         }
 
         $this->deleteFilesIfExist($model);
-        $model->delete();
+        if ($model) {
+            $model->delete();
+        } else {
+            return $this->jsonForm(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
+        }
 
         $returned = $this->afterDestroy();
         if ($returned) {
             return $returned;
         }
 
-        return 204;
+        return $this->jsonForm(null, Response::HTTP_NO_CONTENT);
     }
 
 
@@ -123,7 +127,7 @@ trait JodaApiResource
         if ($rules) {
             $validator = Validator::make(request()->all(), $rules);
             if ($validator->fails()) {
-                return $this->jsonForm($validator->errors(), 400, false);
+                return $this->jsonForm($validator->errors(), Response::HTTP_BAD_REQUEST);
             } else {
                 return $validator->validated();
             }
@@ -139,7 +143,7 @@ trait JodaApiResource
         if ($rules) {
             $validator = Validator::make(request()->all(), $rules);
             if ($validator->fails()) {
-                return $this->jsonForm($validator->errors(), 400, false);
+                return $this->jsonForm($validator->errors(), Response::HTTP_BAD_REQUEST);
             } else {
                 return $validator->validated();
             }
@@ -148,9 +152,11 @@ trait JodaApiResource
         }
     }
 
-
-    public static function jsonForm($data, $code = 200, $status = true)
+    public static function jsonForm($data, $code = 200)
     {
-        return response(['data' => $data, 'code' => $code, 'status' => $status]);
+        if ($code >= 400) {
+            return response(['error message' => $data,"code"=>$code,"status"=>false], $code);
+        }
+        return response(['data' => $data,"code"=>$code,"status"=>true], $code);
     }
 }
