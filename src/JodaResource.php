@@ -4,14 +4,12 @@ namespace Ahmedjoda\JodaResources;
 
 use LogicException;
 
-
 trait JodaResource
 {
     use ResourceHelpers;
 
     public function index()
     {
-
         ${$this->pluralCamelName} = $this->getQuery();
 
         $index = ${$this->pluralCamelName};
@@ -46,7 +44,7 @@ trait JodaResource
             return $returned;
         }
 
-        return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.added'));
+        return $this->stored();
     }
 
 
@@ -87,7 +85,7 @@ trait JodaResource
             return $returned;
         }
 
-        return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.updated'));
+        return $this->updated();
     }
 
 
@@ -129,5 +127,15 @@ trait JodaResource
         } else {
             throw new LogicException('there are no rules in ' . get_class($this) .  ' for update validation please set $storeRules property or $rules for both store and update in either the controller or the model');
         }
+    }
+
+    protected function stored()
+    {
+        return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.added'));
+    }
+
+    protected function updated()
+    {
+        return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.updated'));
     }
 }
