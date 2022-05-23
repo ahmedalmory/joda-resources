@@ -142,7 +142,7 @@ update => put => example.com/api/examples/1
 
 destroy => delete => example.com/api/examples/1
 
-## for customisation
+## For customisation
 
 There are methods for customisation like
 beforeStore() that be fired right before storing data to data base,
