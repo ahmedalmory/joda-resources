@@ -1,17 +1,17 @@
 {
-  "name": "ahmedjoda/joda-resources",
+  "name": "ahmedalmory/joda-resources",
   "description": "a trait that generates resources methods for controller",
   "keywords": [
-    "ahmedjoda",
+    "ahmedalmory",
     "joda-resources"
   ],
-  "homepage": "https://github.com/ahmedjoda/joda-resources",
+  "homepage": "https://github.com/ahmedalmory/joda-resources",
   "license": "MIT",
   "type": "library",
   "authors": [
     {
-      "name": "Ahmed Joda",
-      "email": "ahmedjoda02@gmail.com",
+      "name": "Ahmed Almory",
+      "email": "ahmedalmory02@gmail.com",
       "role": "Developer"
     },
     {
@@ -30,12 +30,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Ahmedjoda\\JodaResources\\": "src"
+      "AhmedAlmory\\JodaResources\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Ahmedjoda\\JodaResources\\Tests\\": "tests"
+      "AhmedAlmory\\JodaResources\\Tests\\": "tests"
     }
   },
   "scripts": {
@@ -48,10 +48,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Ahmedjoda\\JodaResources\\JodaResourcesServiceProvider"
+        "AhmedAlmory\\JodaResources\\JodaResourcesServiceProvider"
       ],
       "aliases": {
-        "JodaResources": "Ahmedjoda\\JodaResources\\JodaResourcesFacade"
+        "JodaResources": "AhmedAlmory\\JodaResources\\JodaResourcesFacade"
       }
     }
   }

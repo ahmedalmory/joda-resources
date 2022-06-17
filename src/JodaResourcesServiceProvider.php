@@ -1,6 +1,6 @@
 <?php
 
-namespace Ahmedjoda\JodaResources;
+namespace AhmedAlmory\JodaResources;
 
 use Illuminate\Support\ServiceProvider;
 

@@ -1,7 +1,7 @@
 # Very short description of the package
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/ahmedjoda/joda-resources.svg?style=flat-square)](https://packagist.org/packages/ahmedjoda/joda-resources)
-[![Total Downloads](https://img.shields.io/packagist/dt/ahmedjoda/joda-resources.svg?style=flat-square)](https://packagist.org/packages/ahmedjoda/joda-resources)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/ahmedalmory/joda-resources.svg?style=flat-square)](https://packagist.org/packages/ahmedalmory/joda-resources)
+[![Total Downloads](https://img.shields.io/packagist/dt/ahmedalmory/joda-resources.svg?style=flat-square)](https://packagist.org/packages/ahmedalmory/joda-resources)
 
 a trait that generates resources methods for controller.
 
@@ -10,7 +10,7 @@ a trait that generates resources methods for controller.
 You can install the package via composer:
 
 ```bash
-composer require ahmedjoda/joda-resources
+composer require ahmedalmory/joda-resources
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ UserController.php
 // route would be admin.users
 namespace App\Http\Controllers;
 
-use Ahmedjoda\JodaResources\JodaResource;
+use AhmedAlmory\JodaResources\JodaResource;
 use App\Models\User;
 
 class UserController extends Controller
@@ -119,7 +119,7 @@ ExampleController.php
 ```php
 namespace App\Http\Controllers\Api;
 
-use Ahmedjoda\JodaResources\JodaApiResource;
+use AhmedAlmory\JodaResources\JodaApiResource;
 
 class ExampleController extends Controller
 {
@@ -163,11 +163,11 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email ahmedjoda02@gmail.com instead of using the issue tracker.
+If you discover any security related issues, please email ahmedalmory02@gmail.com instead of using the issue tracker.
 
 ## Credits
 
-- [Ahmed Joda](https://github.com/ahmedjoda)
+- [Ahmed Joda](https://github.com/ahmedalmory)
 - [Ahmed Tofaha](https://github.com/ahmedtofaha10)
 - [All Contributors](../../contributors)
 

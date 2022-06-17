@@ -1,11 +1,11 @@
 <?php
 
-namespace Ahmedjoda\JodaResources;
+namespace AhmedAlmory\JodaResources;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Ahmedjoda\JodaResources\Skeleton\SkeletonClass
+ * @see \AhmedAlmory\JodaResources\Skeleton\SkeletonClass
  */
 class JodaResourcesFacade extends Facade
 {
