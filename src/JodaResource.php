@@ -106,7 +106,7 @@ trait JodaResource
             return $returned;
         }
 
-        return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.deleted'));
+        return $this->destroyed();
     }
 
     public function validateStoreRequest()
@@ -137,5 +137,9 @@ trait JodaResource
     protected function updated()
     {
         return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.updated'));
+    }
+
+    protected function destroied(){
+        return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.deleted'));
     }
 }

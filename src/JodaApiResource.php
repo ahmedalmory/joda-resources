@@ -117,7 +117,7 @@ trait JodaApiResource
             return $returned;
         }
 
-        return $this->jsonForm(null, Response::HTTP_NO_CONTENT);
+        return $this->destroyed();
     }
 
 
@@ -168,5 +168,10 @@ trait JodaApiResource
     protected function updated()
     {
         return $this->jsonForm($updatedModel);
+    }
+    
+    protected function destroyed()
+    {
+        return $this->jsonForm(null, Response::HTTP_NO_CONTENT);
     }
 }
