@@ -139,7 +139,7 @@ trait JodaResource
         return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.updated'));
     }
 
-    protected function destroied(){
+    protected function destroyed(){
         return redirect(route("$this->route.index"))->with('success', trans('joda-resources::app.deleted'));
     }
 }
