@@ -78,7 +78,7 @@ trait JodaResource
         $data = $this->validateUpdateRequest();
 
         $data = $this->uploadFilesIfExist($data);
-        $updatedModel = $model->update($data);
+        $updatedModel = tap($model)->update($data);
 
         $returned = $this->afterUpdate($updatedModel);
         if ($returned) {
