@@ -41,7 +41,7 @@ trait JodaApiResource
             return $returned;
         }
 
-        return $this->stored();
+        return $this->stored($createdModel);
     }
 
 
@@ -92,7 +92,7 @@ trait JodaApiResource
             return $returned;
         }
 
-        return $this->updated();
+        return $this->updated($updatedModel);
     }
 
 
@@ -160,12 +160,12 @@ trait JodaApiResource
         return response(['data' => $data,"code"=>$code,"status"=>true], $code);
     }
 
-    protected function stored()
+    protected function stored($createdModel = null)
     {
         return $this->jsonForm($createdModel, Response::HTTP_CREATED);
     }
 
-    protected function updated()
+    protected function updated($updatedModel = null)
     {
         return $this->jsonForm($updatedModel);
     }
